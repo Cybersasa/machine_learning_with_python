@@ -62,3 +62,15 @@ display(datax_pandas)
 
 '''
 from sklearn.datasets import load_iris
+iris_dataset = load_iris()
+#Sprint(iris_dataset)
+print("Keys for Our dataset \n{}".format(iris_dataset.keys()))
+#print(iris_dataset['DESCR'][:440])
+print('The Classes are: {}'.format(iris_dataset['target_names']))
+print('Shape of dataset is: {}'.format(iris_dataset['data'].shape))
+
+
+
+
+
+
