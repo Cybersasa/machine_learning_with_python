@@ -28,7 +28,7 @@ eye_coo1 = np.array(eye_coo)
 print("Eye Coo1 \n", eye_coo1)
 
 #sample of how matplotlibworks for visualizations
-#%matplotlib inline
+%matplotlib inline
 import matplotlib.pyplot as plt
 #generating numbers between -10 to 10 with 100 steps in between
 x = np.linspace(-10, 10, 100)
@@ -36,3 +36,43 @@ x = np.linspace(-10, 10, 100)
 y = np.sin(x)
 #line plot of one array against the other
 plt.plot(x, y, marker = 'x')
+
+#importing pandas which uses dataframes like in R language
+import pandas as pd
+#creating a simple dataset
+datax = {'Name': ['John', 'Ann', 'Betty', 'ZenithX'],
+         'Gender':['Male', 'Female','Female','Female'],
+         'Age':[10, 11, 12, 13]}
+datax_pandas = pd.DataFrame(datax)
+display(datax_pandas)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
