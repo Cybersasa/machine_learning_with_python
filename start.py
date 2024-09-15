@@ -6,7 +6,15 @@ Created on Sun Sep 15 05:07:31 2024
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import mglearn
+from scipy import sparse
 
+'''
+
+# All this block is commented to only run the relevant part
+# Before beign commented, it was run to check that every line is working as expected
 x = np.array([[0, 1, 2], [2, 3, 4]])
 x1 = np.array([[0, 0, 0], [2, 3, 4]])
 
@@ -14,7 +22,6 @@ x1 = np.array([[0, 0, 0], [2, 3, 4]])
 
 #creating a sparse matrix (for presenting matrices with mostly 0s)
 
-from scipy import sparse
 x_sparse = sparse.csr_matrix(x)
 #print(x_sparse)
 
@@ -27,9 +34,6 @@ print(eye_coo)
 eye_coo1 = np.array(eye_coo)
 print("Eye Coo1 \n", eye_coo1)
 
-#sample of how matplotlibworks for visualizations
-%matplotlib inline
-import matplotlib.pyplot as plt
 #generating numbers between -10 to 10 with 100 steps in between
 x = np.linspace(-10, 10, 100)
 #creating secondary array using sine
@@ -37,8 +41,8 @@ y = np.sin(x)
 #line plot of one array against the other
 plt.plot(x, y, marker = 'x')
 
+
 #importing pandas which uses dataframes like in R language
-import pandas as pd
 #creating a simple dataset
 datax = {'Name': ['John', 'Ann', 'Betty', 'ZenithX'],
          'Gender':['Male', 'Female','Female','Female'],
@@ -46,33 +50,15 @@ datax = {'Name': ['John', 'Ann', 'Betty', 'ZenithX'],
 datax_pandas = pd.DataFrame(datax)
 display(datax_pandas)
 
+#querying dataset created
+print('This is utput of a query:')
+display(datax_pandas[datax_pandas.Age > 12])
 
+#import sys
+#sys.path.append('machine_learning_with_python')
 
+print('\n\n\nmglearn library imported\n')
+display(datax_pandas)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+'''
+from sklearn.datasets import load_iris
