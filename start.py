@@ -10,6 +10,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import mglearn
 from scipy import sparse
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+
+
+iris_dataset = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(iris_dataset['data'],iris_dataset['target'], random_state=98)
+
+#random states 1, 42, 91 yield a 100% accurate model
 
 '''
 
@@ -60,17 +69,77 @@ display(datax_pandas[datax_pandas.Age > 12])
 print('\n\n\nmglearn library imported\n')
 display(datax_pandas)
 
-'''
-from sklearn.datasets import load_iris
-iris_dataset = load_iris()
 #Sprint(iris_dataset)
 print("Keys for Our dataset \n{}".format(iris_dataset.keys()))
 #print(iris_dataset['DESCR'][:440])
 print('The Classes are: {}'.format(iris_dataset['target_names']))
 print('Shape of dataset is: {}'.format(iris_dataset['data'].shape))
+print('First 3 rows of data:\n{}'.format(iris_dataset['data'][:3]))
+print('Data Type: {}'.format(type(iris_dataset['data'])))
+print('Shape of Data: {}'.format(iris_dataset['data'].shape))
+print('Shape of Target: {}'.format(iris_dataset['target'].shape))
+print('Shape of target Sampled: {}'.format(iris_dataset['target'][::15]))
 
 
+#splitting iris dataset into 2(training and testing in ration 75:25)
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(iris_dataset['data'],iris_dataset['target'], random_state=0)
+print('Shape for training data is {} while shaep for testing data is {}.'.format(X_train.shape, X_test.shape))
+print('Shape for training targets is {} while shaep for testing classes is {}.'.format(y_train.shape, y_test.shape))
 
+#importing the K neighbours model to build a machine learning system
+#this model stores the data and when presented with data point to predict, the data points in the 
+#model that are closest to the input are used to give output. 
+#k may be 1, 2, ... nearest points (neighbors)
+from sklearn.neighbors import KNeighborsClassifier
 
+'''
+knn = KNeighborsClassifier(n_neighbors=1) #pick closest neighbour -1
+knn.fit(X_train, y_train)
 
+#new data to be predicted
+Xn = np.array([[5, 2.9, 1, 0.2]])
+print('New Data Shape: {}'.format(Xn.shape))
 
+#the prediction
+predicted = knn.predict(Xn)
+print('Output of Prediction is {}'.format(predicted))
+print('Predicted Class of {} is {}'.format(Xn, iris_dataset['target_names'][predicted]))
+
+#checking to see if sysyem is accurate; we use the unused test data
+#first check how the unused data (testing data) appears
+#print(X_test, y_test)
+print(X_test[0], y_test[0]) #prints the right values; first row of X_test and first row of y_test
+
+#predict output of first test data and compare it with actual output
+outA = [X_test[0]]
+print(outA)
+print(Xn)
+print(Xn)
+
+predicted = knn.predict(Xn)
+
+print(type(Xn), type(X_test[0]), type(outA))
+
+xx = knn.predict(outA)
+#print(outB)
+print(xx)
+
+#actusl predicting for first value of test set
+print('For first row of test data {}, the predicted value is {} while output is {}'.format(X_test[0], knn.predict([X_test[0]]), y_test[0]))
+preds = []
+score = []
+for i in X_test:
+    pred = knn.predict([i]) #knn.predict([X_test[0]])
+    preds.append(pred[0])
+    
+for i in range(0, len(y_test)):
+    if preds[i] == y_test[i]:
+        score.append(1)
+    print('Predicted vs Actual: {} vs {}'.format(preds[i], y_test[i]))
+    
+a = len(y_test)
+b = len(score)
+scored = (len(score)/len(y_test))*100
+print('Accuracy of model is {} because out of {} predictions, {} were right.'.format(scored, a, b))
+print('Accuracy1: {}'.format(knn.score(X_test, y_test)))
