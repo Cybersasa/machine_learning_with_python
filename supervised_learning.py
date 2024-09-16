@@ -64,15 +64,20 @@ cancerr = KNeighborsClassifier(n_neighbors=3)
 cancerr.fit(X_train, y_train)
 
 # after training, we test it using testing set
-print('Accuracy of our knn model in predicting cancerous tumors \
+print('\nAccuracy of our knn model in predicting cancerous tumors \
 is {:.2f}%'.format(100*(cancerr.score(X_test, y_test))))
 
 #Testing the system by adjusting one value by a small margin and
 #predicting whether the tumor is cancerous or not
 
-print('The value in position {} is {} and its class is {}')
-print('I predict the class of that data is {}')
-print('After adjusting first value in data, the prediction is {}')
+from random import randint
+p = randint(0, len(X_test))
+p_value_X = X_test[p]
+p_value_y = y_test[p]
+p_value_X[0] = p_value_X[0]*1.1
+print('\nThe value in position {} is {} and its class is {}'.format(p, p_value_X, p_value_y))
+print('\nI predict the class of that data is {}'.format(cancerr.predict(p_value_X)))
+print('\nAfter adjusting first value in data, the prediction is {}'.format(cancerr.predict(p_value_X)))
 
 
 
