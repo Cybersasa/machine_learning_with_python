@@ -12,12 +12,20 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import mglearn
 from scipy import sparse
+from random import randint
+
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.datasets import load_breast_cancer
+cancer = load_breast_cancer()
+X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, random_state=91)
+cancerr = KNeighborsClassifier(n_neighbors=3)
+cancerr.fit(X_train, y_train)
 
 
-"""
+
+'''
 #generating mglearn classification dataset
 X, y = mglearn.datasets.make_forge()
 mglearn.discrete_scatter(X[:, 0], X[:, 1], y)
@@ -34,7 +42,7 @@ plt.xlabel("Feature")
 plt.ylabel("Target")
 
 
-"""
+
 
 #importing Wisconsin Breast Cancer dataset that examines sizes of cancer tumors
 #This is a real classification dataset with 2 classes (binary classification)
@@ -70,14 +78,71 @@ is {:.2f}%'.format(100*(cancerr.score(X_test, y_test))))
 #Testing the system by adjusting one value by a small margin and
 #predicting whether the tumor is cancerous or not
 
+
 from random import randint
 p = randint(0, len(X_test))
 p_value_X = X_test[p]
 p_value_y = y_test[p]
-p_value_X[0] = p_value_X[0]*1.1
-print('\nThe value in position {} is {} and its class is {}'.format(p, p_value_X, p_value_y))
-print('\nI predict the class of that data is {}'.format(cancerr.predict(p_value_X)))
-print('\nAfter adjusting first value in data, the prediction is {}'.format(cancerr.predict(p_value_X)))
+#p_value_X[0] = p_value_X[0]*1.1
+print('\nThe value in position {} belongs to class {}'.format(p, p_value_y))
+print('\nI predict the class of that data is {}'.format(cancerr.predict([p_value_X])))
+# print('\nAfter adjusting first value in data, the prediction is {}'.format(cancerr.predict(p_value_X)))
+
+# Counting number of training and testing rows and getting total
+print('There are {} rows in training set, {} rows in testing set, which comes to a total of {}. The original dataset had {} rows'.format(len(X_train), len(X_test), len(X_train) + len(X_test), len(cancer.data)))
+
+# determining the number of neighbors with highest accuracy for knn
+
+#   dataset name is cancer, which has 569 rows
+# stori za jaba
+#print('There are {} labels which are: {}'.format(len(cancer), cancer.keys()))
+
+#   creating table of number of neighbors vs accuracy
+X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, random_state=91)
+K = [] # list of number of neighbours from 1 to length of dataset
+accuracies = [] # resulting accuracy for a certain number of neighbours
+for i in range(1, 144):
+    cancer_model = KNeighborsClassifier(n_neighbors=i)
+    cancer_model.fit(X_train, y_train)
+    accuracy = cancer_model.score(X_test, y_test)
+    K.append(i)
+    accuracies.append(accuracy)
+
+#plt.plot_date(K, accuracies)
+#print(K)
+#print(accuracies)
+print('max accuracy is: {}'.format(max(accuracies)))
+optimal_neighbors = []
+for i in range(1, len(accuracies)+1):
+    #print(i)
+    value = accuracies[i-1]
+    if value == max(accuracies):
+        
+        optimal_neighbors.append(i-1)
+print(optimal_neighbors) 
+   
+plt.plot(K, accuracies)
+
+
+#Confirming dataset is available
+print(cancer.keys())
+
+'''
+#check model score for random states between 1 and 100, 
+#for a particular n nieghbours between 1 and size of training
+rand_scores = []
+for i in range (1,6):
+    b = 'rand_score' + str(i)
+    rand_scores.append(b)
+    
+print(rand_scores)
+rand_scores_list =[]
+for i in rand_scores:
+    i = []
+    rand_scores_list.append(i)
+    
+print(rand_scores_list[0])
+
 
 
 
