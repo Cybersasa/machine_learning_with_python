@@ -53,15 +53,15 @@ as possible, a process called regularization
 to avoid overfitting
 -ridge regression is implemented through linear_model.Ridge
 
-'''
+
 #testing ridge regression on cancer, diabetes, california_housing datasets
 #importing the 3 datasets
 from sklearn.datasets import \
-    load_breast_cancer, load_diabetes, fetch_california_housing
+    load_diabetes, fetch_california_housing
 from sklearn.linear_model import Ridge, LinearRegression
 
 from sklearn.model_selection import train_test_split
-"""
+
 #implementing ridge regression on cancer dataset
 cancer = load_breast_cancer()
 print('Keys:{}'.format(cancer.keys()))
@@ -92,7 +92,7 @@ print('Testing Score for Diabetes data (Linear R.): {:.2f}'.format(diabetesss.sc
 #Investigating number of parameters in the dataset
 print('Diabetes dataste has {} rows and {} columns.'.format(diabetes.data.shape[0], diabetes.data.shape[1]))
 print(diabetes.target[0:5])
-"""
+
 
 #ODE Performed better that ridge regression in diabetes dataset
 #Now testing with California hosing dataset
@@ -134,5 +134,54 @@ print('There are {} columns in the dataset.'.format(housing.data.shape[1]))
 #print('The linear equation based on the ODE coefficients is \
 #y = {}x1 + {}x2 + {}x3 + {}x4 + {}x5 + {}x6 + {}x7 + {}x8 + {} \
 #'.format(housinggg.coef_[0], housinggg.coef_[1], housinggg.coef_[2], housinggg.coef_[3], housinggg.coef_[4], housinggg.coef_[5], housinggg.coef_[6], housinggg.coef_[7], housinggg.intercept_))
+
+
+import mglearn
+import matplotlib.pyplot as plt
+X, y = mglearn.datasets.load_extended_boston()
+#from sklearn.datasets import \
+#    load_breast_cancer, load_diabetes, fetch_california_housing
+#breast = load_breast_cancer()
+diabetes = load_diabetes()
+print(diabetes.data.shape)
+housing = fetch_california_housing()
+#X_trainb, X_testb, y_trainb, y_testb = train_test_split(breast.data, breast.target)
+X_traind, X_testd, y_traind, y_testd = train_test_split(diabetes.data, diabetes.target)
+X_trainh, X_testh, y_trainh, y_testh = train_test_split(housing.data, housing.target)
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+#from sklearn.linear_model import Ridge
+#training the 3 datasets
+boston = Ridge().fit(X_train, y_train)
+diabetes = Ridge(100).fit(X_traind, y_traind)
+housing = Ridge().fit(X_trainh, y_trainh)
+
+#printing number of coefficients for each
+print('Coefficients: Boston({}), Diabetes({}), Housing({})'\
+.format(len(boston.coef_), len(boston.coef_), len(boston.coef_)))
+
+plt.plot(boston.coef_, 's', label="Boston Coeficients")
+plt.plot(diabetes.coef_, 's', label="Diabetes Coeficients")
+plt.plot(boston.coef_, 's', label="Boston Coeficients")
+
+'''
+
+#Lasso is another algorithm for linear regresssion
+#Lasso uses L1 regularization by reducing some 
+#coefficients to 0
+
+#creating Lasso model for diabetes dataset
+from sklearn.datasets import load_wine
+import numpy as np
+diabetes = load_wine()
+from sklearn.linear_model import Lasso
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(diabetes.data, diabetes.target, random_state=0)
+diabetes = Lasso(alpha=0.01, max_iter=10000000).fit(X_train, y_train)
+print('Accuracy of Predicting Training set is {:.2f}'.format(diabetes.score(X_train, y_train)))
+print('Accuracy of Predicting Testing set is {:.2f}'.format(diabetes.score(X_test, y_test)))
+#print('Coefficients in model are {}'.format(diabetes.coef_))
+print('There are {} non-zero coefficients.'.format(np.sum(diabetes.coef_ !=0)))
+
 
 
