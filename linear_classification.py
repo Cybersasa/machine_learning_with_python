@@ -24,3 +24,18 @@ for model, ax in zip([LinearSVC(), LogisticRegression()], axes):
     ax.set_xlabel('Feature 0')
     ax.set_ylabel('Feature 1')
 axes[0].legend()
+
+mglearn.plots.plot_linear_svc_regularization()
+
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+
+cancer = load_breast_cancer()
+X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, stratify = cancer.target, random_state=0)
+cancer = LogisticRegression().fit(X_train, y_train)
+cancer1 = LinearSVC().fit(X_train, y_train)
+print('Accuracy of Logistics Regression\n')
+print('Training: {:.2f} Testing: {:.2f}\n\n'.format(cancer.score(X_train, y_train), cancer.score(X_test, y_test)))
+print('Accuracy of Linear Support Vector Classifier (SVC)\n')
+print('Training: {:.2f} Testing: {:.2f}\n\n'.format(cancer1.score(X_train, y_train), cancer1.score(X_test, y_test)))
+
