@@ -28,9 +28,20 @@ print('shape of Coeffients is {} by {}'.\
              linear_svc.coef_.shape[1]))
 print('Model interecept has the shape {}'.format(linear_svc.intercept_.shape))
 
+#at this point, there are 3 distinct groupings on the plot
+#shape of coeffients is 3 by 2, shape of intercept is 3
+
+#now watching hoe the coefficnets actually look like
+print('Coeffients in the new Linear SVC model are: {}'.format(linear_svc.coef_))
+print('Intercept value is {}'.format(linear_svc.intercept_))
     
-    
-    
-    
+#to understand better how the model works, 
+#test the class of a random value in dataset
+
+#printing first line of data and first line of target
+print('{} and {} are for class {}'.format(X[0][0], X[0][1], y[0]))
+
+#predicting class for those features
+print('predicted class for {} and {} is {}'.format(X[0][0], X[0][0], LinearSVC(dual='auto').predict(X[0])))
     
     
