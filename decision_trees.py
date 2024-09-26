@@ -16,6 +16,7 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(load_breast_cancer().data, load_breast_cancer().target, stratify=load_breast_cancer().target, random_state=42)
 cancer_tree = DecisionTreeClassifier(random_state=0).fit(X_train, y_train)
 print('Accuracy of Decision tree is {:.2f}'.format(100*cancer_tree.score(X_test, y_test)))
+print('Accuracy of Decision tree (training) is {:.2f}'.format(100*cancer_tree.score(X_train, y_train)))
 #getting maximum value the model can create for test set
 #accuracies = []
 #for i in range (1,100):
@@ -26,7 +27,13 @@ print('Accuracy of Decision tree is {:.2f}'.format(100*cancer_tree.score(X_test,
     #accuracies.append(accuracy)
 #print('Max Accuracy is {:.2f}'.format(100*max(accuracies)))
 
+#pre-pruning the decision tree by adding a maximum depth
+X_train, X_test, y_train, y_test = train_test_split(load_breast_cancer().data, load_breast_cancer().target, stratify=load_breast_cancer().target, random_state=42)
+cancer_tree = DecisionTreeClassifier(random_state=0, max_depth=4).fit(X_train, y_train)
+print('Accuracy of Decision tree is {:.2f}'.format(100*cancer_tree.score(X_test, y_test)))
+print('Accuracy of Decision tree (training) is {:.2f}'.format(100*cancer_tree.score(X_train, y_train)))
 
+#after adding max depth of 4, the accuracy of predictions increases 93.71% to 95.10%
 
 
 
