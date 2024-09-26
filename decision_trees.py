@@ -34,7 +34,13 @@ print('Accuracy of Decision tree is {:.2f}'.format(100*cancer_tree.score(X_test,
 print('Accuracy of Decision tree (training) is {:.2f}'.format(100*cancer_tree.score(X_train, y_train)))
 
 #after adding max depth of 4, the accuracy of predictions increases 93.71% to 95.10%
+from sklearn.tree import export_graphviz
+export_graphviz(cancer_tree, out_file="tree.dot", class_names=["malignant", "benign"], feature_names=load_breast_cancer().feature_names, impurity=False, filled=True)
 
+import graphviz
+with open("tree.dot") as f:
+    dotgraph = f.read()
+graphviz.Source(dotgraph)
 
 
 
